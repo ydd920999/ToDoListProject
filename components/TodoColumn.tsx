@@ -13,11 +13,19 @@ import DraggableTodoCard from './DraggableTodoCard';
 import SortableTodoCard from './SortableTodoCard';
 import { Plus, CheckCircle, Circle, List } from 'lucide-react';
 
+interface DragItem {
+  id: string;
+  index: number;
+  type: string;
+  todo: Todo;
+  columnType: string;
+}
+
 interface TodoColumnProps {
   title: string;
   todos: Todo[];
   type: 'all' | 'pending' | 'completed';
-  onDrop: (item: any, targetType: string) => void;
+  onDrop: (item: DragItem, targetType: string) => void;
   onToggle: (id: string) => void;
   onDelete: (id: string) => void;
   onEdit: (todo: Todo) => void;
@@ -58,9 +66,9 @@ export default function TodoColumn({
   onAddNew,
   onReorder,
 }: TodoColumnProps) {
-  const [{ isOver, canDrop }, drop] = useDrop({
+  const [{ isOver, canDrop }, drop] = useDrop<DragItem, void, { isOver: boolean; canDrop: boolean }>({
     accept: 'todo',
-    drop: (item: any) => onDrop(item, type),
+    drop: (item: DragItem) => onDrop(item, type),
     collect: (monitor) => ({
       isOver: monitor.isOver(),
       canDrop: monitor.canDrop(),

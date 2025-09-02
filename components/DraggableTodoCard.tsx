@@ -34,7 +34,7 @@ export default function DraggableTodoCard({
 }: DraggableTodoCardProps) {
   const ref = useRef<HTMLDivElement>(null);
 
-  const [{ handlerId }, drop] = useDrop({
+  const [{ handlerId }, drop] = useDrop<DragItem, void, { handlerId: string | symbol | null }>({
     accept: 'todo',
     collect(monitor) {
       return {
@@ -94,7 +94,7 @@ export default function DraggableTodoCard({
     },
   });
 
-  const [{ isDragging }, drag] = useDrag({
+  const [{ isDragging }, drag] = useDrag<DragItem, void, { isDragging: boolean }>({
     type: 'todo',
     item: () => {
       return { 

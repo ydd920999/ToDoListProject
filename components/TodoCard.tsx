@@ -31,7 +31,7 @@ const priorityIcons = {
 export default function TodoCard({ todo, onToggle, onDelete, onEdit, isDragging, disableInternalDrag = false }: TodoCardProps) {
   const themeClasses = useThemeClasses();
   const themeStyles = useThemeStyles();
-  const [{ isDragActive }, drag] = useDrag({
+  const [{ isDragActive }, drag] = useDrag<{ id: string; todo: Todo }, void, { isDragActive: boolean }>({
     type: 'todo',
     item: { id: todo.id, todo },
     collect: (monitor) => ({
